@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>半角・全角 変換ツール</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+  <!-- ヘッダー -->
+  <header class="bg-white border-b border-gray-200 px-6 py-4 shadow-sm">
+    <div class="max-w-6xl mx-auto flex items-center gap-3">
+      <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">変</div>
+      <div>
+        <h1 class="text-lg font-bold text-gray-800 leading-none">半角・全角 変換ツール</h1>
+        <p class="text-xs text-gray-500 mt-0.5">テキストの表記揺れを一括整形 — すべてブラウザ内で処理（通信なし）</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-6">
+
+    <!-- 設定パネル -->
+    <section class="bg-white rounded-xl border border-gray-200 px-5 py-4 mb-5 shadow-sm">
+      <h2 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">変換設定</h2>
+      <div class="flex flex-wrap gap-x-6 gap-y-2">
+        <label class="checkbox-label">
+          <input type="checkbox" id="chk-alphanumeric" checked />
+          <span>英数字を半角に・カタカナを全角に変換</span>
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" id="chk-space" checked />
+          <span>全角スペースを半角スペースに変換</span>
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" id="chk-trim" checked />
+          <span>行頭・行末の余分なスペースを削除</span>
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" id="chk-newline" />
+          <span>連続する改行を1つにまとめる</span>
+        </label>
+      </div>
+    </section>
+
+    <!-- テキストエリア（左右レイアウト） -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+
+      <!-- 入力 -->
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">入力</span>
+          <span class="char-count">
+            <span id="input-count">0</span> 文字
+          </span>
+        </div>
+        <textarea
+          id="input-text"
+          class="textarea"
+          placeholder="ここにテキストを貼り付けてください…&#10;例：ＡＢＣ１２３　ｱｲｳｴｵ"
+          spellcheck="false"
+        ></textarea>
+        <div class="panel-footer">
+          <button id="btn-clear" class="btn-secondary">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+            入力をクリア
+          </button>
+        </div>
+      </div>
+
+      <!-- 出力 -->
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">変換結果</span>
+          <span class="char-count">
+            <span id="output-count">0</span> 文字
+          </span>
+        </div>
+        <textarea
+          id="output-text"
+          class="textarea output-textarea"
+          placeholder="変換結果がここに表示されます…"
+          readonly
+          spellcheck="false"
+        ></textarea>
+        <div class="panel-footer">
+          <button id="btn-copy" class="btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"/><path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"/></svg>
+            <span id="btn-copy-text">結果をコピー</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- トースト通知 -->
+  <div id="toast" class="toast" aria-live="polite">✓ コピーしました！</div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
